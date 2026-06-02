@@ -35,7 +35,7 @@ export default function Home(){
       // 30-> "30" converted to string
      
   }
- 
+
   const clear=()=>{
      setDisplay("")
   }
@@ -76,10 +76,13 @@ export default function Home(){
   return(
     <div className="min-h-screen w-full flex items-center justify-center p-4">
       <div className="w-full max-w-md flex flex-col items-center border rounded-xl p-6 shadow-md">
-      <h1 className="text-3xl font-bold mb-5">
+
+      <div className="grid grid-cols-3 text-3xl font-bold mb-5 ">
+      <button className="gap-4 align-left" >☰</button>
+      <h1>
         Scientific Calculator
         </h1>
-
+      </div>
       <input
       type="text"
       value={display}
@@ -87,7 +90,7 @@ export default function Home(){
      className="border p-3 w-80 text-right text-2xl"/>
 
      <div className="grid grid-cols-4 gap-2 mt-4">
-      <button className="gap-3 p-3 border rounded-full" onClick={()=>handleClick("7")}>7</button>
+      <button className="gap-3 p-3 border rounded-full w-18" onClick={()=>handleClick("7")}>7</button>
       <button className="gap-3 p-3 border rounded-full" onClick={()=>handleClick("8")}>8</button>
       <button className="gap-3 p-3 border rounded-full" onClick={()=>handleClick("9")}>9</button>
       <button className="gap-3 p-3 border rounded-full" onClick={()=>handleClick("/")}>/</button>
