@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import calculate from "./Components/calculate";
+import backspace from "./Components/Backbutton";
 
 export default function Home(){
   const [display,setDisplay]=useState("");
@@ -16,23 +17,25 @@ export default function Home(){
     const lastChar =display[display.length-1]
 
     if(operator.includes(value) && operator.includes(lastChar)){
-      setDisplay((prev)=> prev.slice(0,-1))
-    }
-    setDisplay((prev)=> prev+value)
+      setDisplay((prev)=> prev.slice(0,-1)+value)
+    }else{setDisplay((prev)=> prev+value)}
   }
 
   const handleCalculate = () => {
     calculate({ display, operator, setDisplay });
   };
-
+  
+  const handleBackspace = () => {
+    backspace({ display, setDisplay });
+  };
   const clear=()=>{
      setDisplay("")
   }
 
   const advOperation=(value:string)=>{
-    if(value==="sin"){
-      setOperator("sin")
-    //  setDisplay(value)
+    if(value==="sin" || value==="cos" || value==="tan"){
+      setOperator(value)
+    setDisplay((prev)=> prev+value+"(")
     }
   }
    
@@ -40,13 +43,18 @@ export default function Home(){
     <div className="min-h-screen w-full flex items-center justify-center p-4">
       <div className="w-full max-w-md flex flex-col items-center border rounded-xl p-6 shadow-md">
 
-      <div className="grid grid-cols-3 text-3xl font-bold mb-5 ">
-      <button className="gap-4 align-left"
-      onClick={()=>setIshidden(!isHidden)} >☰</button>
+      <div className="grid grid-cols-3  ">
+      <button className="gap-4 align-left text-3xl font-bold mb-5"    // col 1
+      onClick={()=>setIshidden(!isHidden)} 
+      >☰
+      </button>
 
-      <h1>
-        Scientific Calculator
+      <h1 className="text-xl font-bold mb-5">    
+        Scientific Calculator   
         </h1>
+        <h3 className="text-s   mb-5">
+             {isHidden ? "Basic mode" : "Scientific mode"}
+        </h3>
       </div>
       <input
       type="text"
@@ -59,7 +67,7 @@ export default function Home(){
       <button className="gap-3 p-3 border rounded-full w-18" onClick={()=>handleClick("7")}>7</button>
       <button className="gap-3 p-3 border rounded-full" onClick={()=>handleClick("8")}>8</button>
       <button className="gap-3 p-3 border rounded-full" onClick={()=>handleClick("9")}>9</button>
-      <button className="gap-3 p-3 border rounded-full" onClick={()=>handleClick("/")}>/</button>
+      <button className="gap-3 p-3 border rounded-full " onClick={()=>handleClick("/")}>/</button>
 
       <button className="gap-3 p-3 border rounded-full" onClick={()=>handleClick("4")}>4</button>
       <button className="gap-3 p-3 border rounded-full" onClick={()=>handleClick("5")}>5</button>
@@ -74,11 +82,12 @@ export default function Home(){
   <button className="gap-3 p-3 border rounded-full" onClick={() => handleClick("0")}>0</button>
   <button className="gap-3 p-3 border rounded-full" onClick={() => handleClick(".")}>.</button>
   <button className="gap-3 p-3 border rounded-full" onClick={() => handleClick("+")}>+</button>
+  <button className="gap-3 p-3 border rounded-full" onClick={handleBackspace}>❮</button>
 
   <button className={`gap-3 p-3 border rounded-full ${isHidden ? 'hidden' : ''}`} onClick={() => advOperation("sin")}>sin</button>
   <button className={`gap-3 p-3 border rounded-full ${isHidden ? 'hidden' : ''}`} onClick={() => advOperation("cos")}>cos</button>
   <button className={`gap-3 p-3 border rounded-full ${isHidden ? 'hidden' : ''}`} onClick={() => advOperation("tan")}>tan</button>
-  <button className={`gap-3 p-3 border rounded-full ${isHidden ? 'hidden' : ''}`} onClick={() => advOperation("sqrt")}>sqrt</button>
+  <button className={`gap-3 p-3 border rounded-full ${isHidden ? 'hidden' : ''}`} onClick={() => handleClick(")")}>﹚</button>
   
 
      </div>
@@ -87,6 +96,7 @@ export default function Home(){
       {/* //calculation button */}
       <button onClick={handleCalculate}>=</button>
       </div>
+      {/* clear button */}
       <div className="w-16 h-16 rounded-full bg-orange-500 text-white text-xl flex items-center justify-center">
       <button onClick={clear}>C</button>
       </div>
